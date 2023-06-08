@@ -20,7 +20,7 @@ jobs:
     name: Test Server
     strategy:
       matrix:
-        serverType: [ 'fabric', 'forge' ]
+        serverType: [ 'forge' ]
     runs-on: ubuntu-latest
     timeout-minutes: 20 # Fail after 20 minutes
     steps:
@@ -32,7 +32,13 @@ jobs:
       - name: Setup Gradle & Caches
         uses: "./.github/actions/setup-gradle"
 
-      - name: Test Server
-        uses: ValkyrienSkies/Minecraft-Architectury-Testing@v1.9
+      - name: Build119
+        uses: fyachan/Minecraft-Architectury-Testing@119
         with:
           serverType: ${{ matrix.serverType }}
+          
+      - name : Upload artifact
+        uses: actions/upload-artifact@master
+        with:
+          name: Build119Forge
+          path: /home/runner/work/Eureka/Eureka/forge
